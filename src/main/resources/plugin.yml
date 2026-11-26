@@ -1,0 +1,51 @@
+name: Janhae
+version: ${version}
+main: kr.janhae.JanhaePlugin
+api-version: "26.3"
+author: janhae
+description: 멸망한 연구소 도시, 잔해. 직업, 성장, 시설, 도감.
+commands:
+  janhae:
+    description: 잔해 기본 명령
+    usage: /janhae
+    aliases: [잔해]
+  menu:
+    description: 시설 목록
+    usage: /menu
+    aliases: [메뉴]
+  shop:
+    description: 상점
+    usage: /shop
+    aliases: [상점]
+  blacksmith:
+    description: 대장간
+    usage: /blacksmith
+    aliases: [대장간]
+  workshop:
+    description: 제작소
+    usage: /workshop
+    aliases: [제작소]
+  storage:
+    description: 창고
+    usage: /storage [페이지]
+    aliases: [창고]
+  appraise:
+    description: 감정소
+    usage: /appraise
+    aliases: [감정소]
+  pawn:
+    description: 전당포
+    usage: /pawn
+    aliases: [전당포]
+  blackmarket:
+    description: 암시장
+    usage: /blackmarket
+    aliases: [암시장]
+  codex:
+    description: 도감
+    usage: /codex
+    aliases: [도감]
+  cook:
+    description: 요리 연구
+    usage: /cook
+    aliases: [요리]

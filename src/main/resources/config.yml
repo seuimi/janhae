@@ -1,0 +1,11 @@
+server-name: "잔해"
+starting-money: 300
+resource-pack:
+  enabled: true
+  bind: "0.0.0.0"
+  port: 8765
+  # 플레이어 클라이언트가 이 주소로 팩을 받는다. 비어 있으면 안내만 하고 강요하지 않는다.
+  # 예: http://서버공인IP:8765
+  public-base-url: ""
+  required: false
+  prompt: "잔해 리소스팩을 받으면 무기와 장비 모습이 적용됩니다."
