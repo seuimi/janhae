@@ -42,6 +42,8 @@ public final class SelectionListener implements Listener {
 
     public void handleJoin(Player player) {
         Profile profile = plugin.profile(player);
+        profile.lastName = player.getName();
+        plugin.profiles().save(profile);
         Bukkit.getScheduler().runTaskLater(plugin, () -> plugin.pack().offer(player), 20L);
         if (profile.job == null) {
             begin(player);

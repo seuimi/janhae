@@ -9,5 +9,16 @@ public enum MenuKind {
     PAWN,
     MARKET,
     CODEX,
-    COOK
+    COOK,
+    ADMIN_HOME,
+    ADMIN_PLAYERS,
+    ADMIN_PLAYER,
+    ADMIN_MARKET,
+    ADMIN_GIVE,
+    ADMIN_WAREHOUSE,
+    ADMIN_WIPE;
+
+    public boolean admin() {
+        return name().startsWith("ADMIN_");
+    }
 }

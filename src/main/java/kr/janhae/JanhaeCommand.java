@@ -37,6 +37,7 @@ public final class JanhaeCommand implements CommandExecutor, TabCompleter {
             case "blackmarket" -> plugin.menus().openMarket(player);
             case "codex" -> plugin.menus().openCodex(player, codexPage(args));
             case "cook" -> plugin.menus().openCook(player);
+            case "adminpanel" -> plugin.adminMenus().openHome(player);
             default -> janhae(player, args);
         }
         return true;
@@ -73,7 +74,7 @@ public final class JanhaeCommand implements CommandExecutor, TabCompleter {
             return;
         }
         if (args.length < 2) {
-            player.sendMessage(Component.text("/janhae admin job|reset|money|xp|give|reload", NamedTextColor.GRAY));
+            plugin.adminMenus().openHome(player);
             return;
         }
         switch (args[1].toLowerCase(Locale.ROOT)) {
@@ -132,6 +133,14 @@ public final class JanhaeCommand implements CommandExecutor, TabCompleter {
                     return;
                 }
                 plugin.grantXp(target, amount.intValue());
+            }
+            case "wipe" -> {
+                if (args.length < 3 || !"confirm".equalsIgnoreCase(args[2])) {
+                    player.sendMessage(Component.text("모든 기록을 지우려면 /janhae admin wipe confirm", NamedTextColor.RED));
+                    return;
+                }
+                int files = plugin.wipeAll();
+                player.sendMessage(Component.text("처음부터 시작했습니다. 지운 기록 " + files + "개.", NamedTextColor.YELLOW));
             }
             case "give" -> {
                 Player target = target(player, args, 2);
@@ -203,7 +212,7 @@ public final class JanhaeCommand implements CommandExecutor, TabCompleter {
             return prefix(args[0], List.of("choose", "confirm", "cancel", "pack", "admin"));
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("admin")) {
-            return prefix(args[1], List.of("job", "reset", "money", "xp", "give", "reload"));
+            return prefix(args[1], List.of("job", "reset", "money", "xp", "give", "reload", "wipe"));
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("choose")) {
             return prefix(args[1], List.of("researcher", "survivor", "cook"));

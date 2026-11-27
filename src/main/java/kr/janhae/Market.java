@@ -40,6 +40,27 @@ public final class Market {
         save();
     }
 
+    public void setSold(String id, boolean value) {
+        rollIfNeeded();
+        if (value) {
+            sold.add(id);
+        } else {
+            sold.remove(id);
+        }
+        save();
+    }
+
+    public void restock() {
+        rollIfNeeded();
+        sold.clear();
+        save();
+    }
+
+    public String today() {
+        rollIfNeeded();
+        return day;
+    }
+
     private void rollIfNeeded() {
         String today = LocalDate.now(SEOUL).toString();
         if (today.equals(day)) {

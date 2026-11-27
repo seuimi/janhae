@@ -225,7 +225,7 @@ public final class Menus implements Listener {
         if (!requireJob(player)) {
             return;
         }
-        if (plugin.profile(player).job != Job.COOK) {
+        if (plugin.profile(player).job != Job.COOK && !player.isOp() && !player.hasPermission("janhae.admin")) {
             player.sendMessage(Component.text("요리사만 레시피를 연구할 수 있습니다.", NamedTextColor.RED));
             return;
         }
@@ -257,7 +257,7 @@ public final class Menus implements Listener {
         if (!(event.getWhoClicked() instanceof Player player)) {
             return;
         }
-        if (holder.kind == MenuKind.WAREHOUSE) {
+        if (holder.kind.admin() || holder.kind == MenuKind.WAREHOUSE) {
             return;
         }
         event.setCancelled(true);
@@ -336,7 +336,7 @@ public final class Menus implements Listener {
         if (!(event.getView().getTopInventory().getHolder() instanceof MenuHolder holder)) {
             return;
         }
-        if (holder.kind == MenuKind.WAREHOUSE) {
+        if (holder.kind.admin() || holder.kind == MenuKind.WAREHOUSE) {
             return;
         }
         int top = event.getView().getTopInventory().getSize();
@@ -355,6 +355,9 @@ public final class Menus implements Listener {
             return;
         }
         if (!(event.getPlayer() instanceof Player player)) {
+            return;
+        }
+        if (holder.kind.admin()) {
             return;
         }
         Inventory inv = event.getInventory();
@@ -769,6 +772,9 @@ public final class Menus implements Listener {
     }
 
     private boolean requireJob(Player player) {
+        if (player.isOp() || player.hasPermission("janhae.admin")) {
+            return true;
+        }
         if (plugin.profile(player).job == null) {
             player.sendMessage(Component.text("직업을 먼저 선택하세요.", NamedTextColor.RED));
             return false;

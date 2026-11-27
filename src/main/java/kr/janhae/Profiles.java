@@ -36,6 +36,9 @@ public final class Profiles {
     public void save(Profile profile) {
         File file = file(profile.id);
         YamlConfiguration yaml = new YamlConfiguration();
+        if (profile.lastName != null && !profile.lastName.isBlank()) {
+            yaml.set("name", profile.lastName);
+        }
         if (profile.job != null) {
             yaml.set("job", profile.job.id);
         }
@@ -75,6 +78,40 @@ public final class Profiles {
         }
     }
 
+    public List<UUID> allIds() {
+        java.util.LinkedHashSet<UUID> ids = new java.util.LinkedHashSet<>();
+        for (org.bukkit.entity.Player online : org.bukkit.Bukkit.getOnlinePlayers()) {
+            ids.add(online.getUniqueId());
+        }
+        File[] files = folder.listFiles((dir, name) -> name.endsWith(".yml"));
+        if (files != null) {
+            for (File file : files) {
+                String base = file.getName().substring(0, file.getName().length() - 4);
+                try {
+                    ids.add(UUID.fromString(base));
+                } catch (IllegalArgumentException ignored) {
+                    // 플레이어 파일이 아닌 것은 목록에서 뺀다.
+                }
+            }
+        }
+        return new ArrayList<>(ids);
+    }
+
+    public int wipeFiles() {
+        cache.clear();
+        int removed = 0;
+        File[] files = folder.listFiles();
+        if (files == null) {
+            return 0;
+        }
+        for (File file : files) {
+            if (file.isFile() && file.delete()) {
+                removed++;
+            }
+        }
+        return removed;
+    }
+
     public void reset(UUID id) {
         cache.put(id, new Profile(id));
         File file = file(id);
@@ -91,6 +128,7 @@ public final class Profiles {
             return profile;
         }
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+        profile.lastName = yaml.getString("name", "");
         profile.job = Job.byId(yaml.getString("job"));
         profile.pending = Job.byId(yaml.getString("pending"));
         profile.level = Math.max(1, yaml.getInt("level", 1));

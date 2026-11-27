@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 public final class Profile {
     public final UUID id;
+    public String lastName = "";
     public Job job;
     public Job pending;
     public int level = 1;

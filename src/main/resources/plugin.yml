@@ -49,3 +49,7 @@ commands:
     description: 요리 연구
     usage: /cook
     aliases: [요리]
+  adminpanel:
+    description: 잔해 관리
+    usage: /adminpanel
+    aliases: [관리]
